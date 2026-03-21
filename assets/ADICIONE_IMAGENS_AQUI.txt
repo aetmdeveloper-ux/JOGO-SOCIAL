@@ -1,0 +1,7 @@
+# Coloque aqui os arquivos de imagem:
+# - robo.png   (personagem Mandroid)
+# - face.png   (Facebook Mascote)
+# - insta.png  (Instagram Mascote)
+# - whats.png  (WhatsApp Mascote)
+# - tiktok.png (TikTok Mascote)
+# - cidade.png (cenário de fundo)
