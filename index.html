@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MANDROID: O Guardião das Redes</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ========== TELA INICIAL ========== -->
+  <div id="screen-menu" class="screen active">
+    <div class="menu-bg"></div>
+    <div class="menu-content">
+      <div class="logo-glow">MANDROID</div>
+      <div class="logo-sub">O Guardião das Redes</div>
+      <p class="menu-story">
+        Em <b>Social City</b>, um vírus misterioso começa a corromper o sistema digital.<br>
+        Apenas o robô <b>MANDROID</b> pode salvar a cidade!
+      </p>
+      <button id="btn-start" class="btn-neon">▶ INICIAR JOGO</button>
+      <button id="btn-controls" class="btn-neon secondary">🖱️ CONTROLES</button>
+      <div id="controls-panel" class="controls-panel hidden">
+        <p>🖱️ <b>Mover o mouse</b> — Movimenta o Mandroid</p>
+        <p>🖱️ <b>Clique Esquerdo</b> — Atacar / Interagir</p>
+        <p>🖱️ <b>Clique em NPC</b> — Conversar / Receber missão</p>
+      </div>
+      <div class="menu-footer">Desenvolvido por <b>MANDROIDAPP</b> · Adão Everton Tavares Miranda</div>
+    </div>
+  </div>
+
+  <!-- ========== TELA DE JOGO ========== -->
+  <div id="screen-game" class="screen hidden">
+
+    <!-- HUD Superior -->
+    <div id="hud">
+      <div id="hud-left">
+        <div class="hud-portrait" id="hud-portrait">
+          <img src="assets/robo.png" alt="Mandroid" onerror="this.style.display='none'" />
+          <span class="hud-robot-icon">🤖</span>
+        </div>
+        <div class="hud-bars">
+          <div class="hud-bar-row">
+            <span class="bar-label hp-label">❤️ HP</span>
+            <div class="bar-bg"><div id="hp-bar" class="bar hp"></div></div>
+            <span id="hp-val" class="bar-num">100/100</span>
+          </div>
+          <div class="hud-bar-row">
+            <span class="bar-label en-label">⚡ ENE</span>
+            <div class="bar-bg"><div id="en-bar" class="bar en"></div></div>
+            <span id="en-val" class="bar-num">100/100</span>
+          </div>
+        </div>
+      </div>
+      <div id="hud-center">
+        <span id="hud-phase">FASE 1</span>
+        <span id="hud-phase-name">Tutorial</span>
+      </div>
+      <div id="hud-right">
+        <div class="hud-score">
+          <span class="score-label">🧩 FRAGMENTOS</span>
+          <span id="fragment-count">0 / 0</span>
+        </div>
+        <div class="hud-score">
+          <span class="score-label">⭐ PONTOS</span>
+          <span id="score-display">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Canvas principal -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Painel de Diálogo -->
+    <div id="dialogue-box" class="dialogue-box hidden">
+      <div class="dialogue-avatar" id="dialogue-avatar"></div>
+      <div class="dialogue-text-area">
+        <div class="dialogue-speaker" id="dialogue-speaker">Facebook</div>
+        <div class="dialogue-text" id="dialogue-text">Olá, Mandroid!</div>
+        <div class="dialogue-hint">🖱️ Clique para continuar...</div>
+      </div>
+    </div>
+
+    <!-- Notificação flutuante -->
+    <div id="notification" class="notification hidden"></div>
+
+    <!-- Painel de missão ativa -->
+    <div id="mission-panel" class="mission-panel hidden">
+      <div class="mission-title">📋 MISSÃO ATIVA</div>
+      <div id="mission-text">-</div>
+      <div id="mission-progress"></div>
+    </div>
+
+    <!-- Boss HP -->
+    <div id="boss-bar-wrapper" class="boss-bar-wrapper hidden">
+      <div class="boss-label">⚠️ VÍRUS CENTRAL ⚠️</div>
+      <div class="boss-bar-bg"><div id="boss-hp-bar" class="boss-bar-fill"></div></div>
+    </div>
+
+  </div>
+
+  <!-- ========== GAME OVER ========== -->
+  <div id="screen-gameover" class="screen hidden">
+    <div class="go-content">
+      <div class="go-title">💀 SISTEMA CORROMPIDO</div>
+      <div class="go-sub">O Mandroid foi derrotado...</div>
+      <div class="go-score">Pontuação: <span id="go-score-val">0</span></div>
+      <button id="btn-restart" class="btn-neon">🔄 REINICIAR</button>
+      <button id="btn-menu-go" class="btn-neon secondary">🏠 MENU</button>
+    </div>
+  </div>
+
+  <!-- ========== VITÓRIA ========== -->
+  <div id="screen-victory" class="screen hidden">
+    <div class="vic-content">
+      <div class="vic-title">🏆 SISTEMA RESTAURADO!</div>
+      <div class="vic-sub">Social City foi salva pelo Mandroid!</div>
+      <div class="vic-score">Pontuação Final: <span id="vic-score-val">0</span></div>
+      <div class="vic-dedication">
+        <div class="ded-title">✨ DEDICATÓRIA ✨</div>
+        <p>Este jogo foi criado com dedicação e amor à tecnologia.</p>
+        <p>Que o espírito inovador do <b>MANDROID</b> inspire a todos.</p>
+        <br/>
+        <div class="ded-brand">MANDROIDAPP DEVELOPER</div>
+        <div class="ded-name">Adão Everton Tavares Miranda</div>
+      </div>
+      <button id="btn-play-again" class="btn-neon">🔄 JOGAR NOVAMENTE</button>
+      <button id="btn-menu-vic" class="btn-neon secondary">🏠 MENU</button>
+    </div>
+  </div>
+
+  <!-- Mouse trail canvas (overlay) -->
+  <canvas id="trailCanvas"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
